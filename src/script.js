@@ -103,6 +103,8 @@ const particlesMaterial = new THREE.ShaderMaterial({
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 scene.add(particles)
 
+const clock = new THREE.Clock()
+let prevTime = 0;
 const tick = () =>
 {
     controls.update()
@@ -118,9 +120,12 @@ const tick = () =>
         displacement.canvasCursor.y = (1 - uv.y) * displacement.canvas.height
     }
 
-    displacement.context.globalCompositeOperation = 'source-over'
-    displacement.context.globalAlpha = 0.1
-    displacement.context.fillRect(0, 0, displacement.canvas.width, displacement.canvas.height)
+    if(clock.getElapsedTime() - prevTime >= 0.05){
+        prevTime = clock.getElapsedTime();
+        displacement.context.globalCompositeOperation = 'source-over'
+        displacement.context.globalAlpha = 0.1
+        displacement.context.fillRect(0, 0, displacement.canvas.width, displacement.canvas.height)
+    }
 
     const glowSize = displacement.canvas.width * 0.25
     displacement.context.globalCompositeOperation = 'lighten'
