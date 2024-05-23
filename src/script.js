@@ -98,7 +98,7 @@ const particlesMaterial = new THREE.ShaderMaterial({
     uniforms:
     {
         uResolution: new THREE.Uniform(new THREE.Vector2(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio)),
-        uPictureTexture: new THREE.Uniform(textureLoader.load('./whiteblack.jpg')),
+        uPictureTexture: new THREE.Uniform(textureLoader.load('./whiteblack.png')),
         uDisplacementTexture: new THREE.Uniform(displacement.texture)
     }
 })
