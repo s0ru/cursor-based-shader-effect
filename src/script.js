@@ -33,6 +33,7 @@ scene.add(displacement.interactivePlane)
 displacement.raycaster = new THREE.Raycaster()
 displacement.screenCursor = new THREE.Vector2(9999, 9999)
 displacement.canvasCursor = new THREE.Vector2(9999, 9999)
+displacement.texture = new THREE.CanvasTexture(displacement.canvas);
 // LISTENERS
 window.addEventListener('pointermove', (event) =>
 {
@@ -84,7 +85,8 @@ const particlesMaterial = new THREE.ShaderMaterial({
     uniforms:
     {
         uResolution: new THREE.Uniform(new THREE.Vector2(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio)),
-        uPictureTexture: new THREE.Uniform(textureLoader.load('./whiteblack.jpg'))
+        uPictureTexture: new THREE.Uniform(textureLoader.load('./whiteblack.jpg')),
+        uDisplacementTexture: new THREE.Uniform(displacement.texture)
     }
 })
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
@@ -119,6 +121,8 @@ const tick = () =>
         glowSize,
         glowSize
     )
+
+    displacement.texture.needsUpdate = true;
 
     window.requestAnimationFrame(tick)
 }
