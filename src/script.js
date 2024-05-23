@@ -1,7 +1,11 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import GUI from 'lil-gui'
 import particlesVertexShader from './shaders/particles/vertex.glsl'
 import particlesFragmentShader from './shaders/particles/fragment.glsl'
+
+const gui = new GUI({ title: 'DEBUG', width: 340 })
+gui.close();
 
 const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
@@ -22,6 +26,7 @@ displacement.canvas.style.height = '256px'
 displacement.canvas.style.top = 0
 displacement.canvas.style.left = 0
 displacement.canvas.style.zIndex = 10
+displacement.canvas.style.visibility = 'hidden'
 document.body.append(displacement.canvas)
 // THREE SIDE
 displacement.interactivePlane = new THREE.Mesh(
@@ -149,5 +154,12 @@ const tick = () =>
 
     window.requestAnimationFrame(tick)
 }
+
+// DEBUG
+const debugObj = {showCanvas: false}
+gui.add(debugObj, 'showCanvas').name('Show canvas').onChange(() => {
+    displacement.canvas.style.visibility = debugObj.showCanvas ? 'visible' : 'hidden';
+})
+
 
 tick()
