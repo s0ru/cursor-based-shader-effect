@@ -79,6 +79,16 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(sizes.pixelRatio)
 
 const particlesGeometry = new THREE.PlaneGeometry(10, 10, 128, 128)
+const intensitiesArray = new Float32Array(particlesGeometry.attributes.position.count)
+const anglesArray = new Float32Array(particlesGeometry.attributes.position.count)
+
+for(let i = 0; i < intensitiesArray.length; i++){
+    intensitiesArray[i] = Math.random()
+    anglesArray[i] = Math.random() * Math.PI * 2
+}
+particlesGeometry.setAttribute('aIntensity', new THREE.BufferAttribute(intensitiesArray, 1))
+particlesGeometry.setAttribute('aAngle', new THREE.BufferAttribute(anglesArray, 1))
+
 const particlesMaterial = new THREE.ShaderMaterial({
     vertexShader: particlesVertexShader,
     fragmentShader: particlesFragmentShader,
@@ -89,6 +99,7 @@ const particlesMaterial = new THREE.ShaderMaterial({
         uDisplacementTexture: new THREE.Uniform(displacement.texture)
     }
 })
+
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 scene.add(particles)
 
