@@ -33,6 +33,7 @@ scene.add(displacement.interactivePlane)
 displacement.raycaster = new THREE.Raycaster()
 displacement.screenCursor = new THREE.Vector2(9999, 9999)
 displacement.canvasCursor = new THREE.Vector2(9999, 9999)
+displacement.canvasCursorPrev = new THREE.Vector2(9999, 9999)
 displacement.texture = new THREE.CanvasTexture(displacement.canvas);
 // LISTENERS
 window.addEventListener('pointermove', (event) =>
@@ -129,9 +130,13 @@ const tick = () =>
         displacement.context.fillRect(0, 0, displacement.canvas.width, displacement.canvas.height)
     }
 
+    const cursorDistance = displacement.canvasCursorPrev.distanceTo(displacement.canvasCursor)
+    displacement.canvasCursorPrev.copy(displacement.canvasCursor)
+    const alpha = Math.min(cursorDistance * 0.1, 1)
+
     const glowSize = displacement.canvas.width * 0.25
     displacement.context.globalCompositeOperation = 'lighten'
-    displacement.context.globalAlpha = 1
+    displacement.context.globalAlpha = alpha
     displacement.context.drawImage(
         displacement.glowImage,
         displacement.canvasCursor.x - glowSize * 0.5,
