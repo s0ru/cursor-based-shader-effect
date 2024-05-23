@@ -26,7 +26,7 @@ document.body.append(displacement.canvas)
 // THREE SIDE
 displacement.interactivePlane = new THREE.Mesh(
     new THREE.PlaneGeometry(10, 10),
-    new THREE.MeshBasicMaterial({ color: 'red' })
+    new THREE.MeshBasicMaterial({ color: 'red', side: THREE.DoubleSide })
 )
 displacement.interactivePlane.visible = false;
 scene.add(displacement.interactivePlane)
